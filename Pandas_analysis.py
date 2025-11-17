@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import textwrap
 Coffee_Data = pd.read_csv("Coffee_sales.csv")
 
 #Functions using pandas to calulate various metrics such as Total_Sales.
@@ -46,11 +48,22 @@ def day_with_highest_sales():
         else:
             continue
 
+# Bar chart showing Highest sales vs different coffees
+
+def bar_chart():
+    Coffee_Names = Coffee_Data["coffee_name"].unique()
+    print(Coffee_Names)
+    amounts = []
+    for name in Coffee_Names:
+        amounts.append(Coffee_Data.query(f"coffee_name == '{name}'").shape[0])
+    
+    wrapped_text = ["\n".join(textwrap.wrap(label,10)) for label in Coffee_Names]
+    plt.figure(figsize=(20,20))
+    plt.bar(wrapped_text,amounts)
+    plt.title("Bar chart")
+    plt.xticks(rotation=90, fontsize = 7)
+    plt.show()
 
 
 
-total_sales()
-item_with_highest_sales()
-day_with_highest_sales()
-
-
+bar_chart()
